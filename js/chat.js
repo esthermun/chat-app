@@ -48,8 +48,10 @@ function login(username, password) {
 	$.ajax({
 		url: 'http://chat-app.brainstation.io/users/login',
 		type: 'POST',
-		data: loginForm.serialize(), 
-		dataType: 'jsonp',
+		data: {
+			username: username,
+			password: password
+		},
 		xhrFields: {
 			withCredentials: true
 		}, 

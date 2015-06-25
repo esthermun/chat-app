@@ -28,8 +28,7 @@ $('#loginForm').submit(function(event){
           if (newUser){
           	console.log("signup");
           	signup(myUsername.val(), myPassword.val());
-          	//myForm.append("<p>Now, trying logging in</p>");
-          	
+          	//myForm.append("<p>Now, trying logging in</p>");         	
 
           } else {
           	console.log("Let's login");
