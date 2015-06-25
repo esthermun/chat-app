@@ -1,0 +1,55 @@
+body, html{
+	margin:0;
+	height:100%;
+}
+
+/* Fix for iOS to stop zooming */
+input[type='text'],
+input[type='password'],
+textarea {
+  font-size: 16px;
+}
+
+.nopadding {
+	padding: 0;
+}
+
+.nomargin {
+	margin: 0;
+}
+/*  styling  */
+.chatContainer {
+	padding-top: 80px;
+}
+.myPanel {
+	box-shadow: 1px 1px 5px #12133c;
+}
+.myPanelBody {
+	height: 325px;
+}
+.outsideLoginBox{
+	width: 400px;
+	margin:0 auto;
+}
+.insideLoginBox{
+	padding-top: 60px;
+	padding-bottom: 40px;
+	padding-right: 30px;
+	padding-left: 30px;
+}
+.loginBtn{
+	float: right;
+}
+.myPanelHeading h2{
+	line-height: 2;
+}
+.allMssgs{
+	width: 100%;
+	height:100%;
+	background-color: orange;
+}
+.myPanelFooter button {
+	float: right;
+	padding: 15px 25px;
+	border-radius: 15px;
+}
