@@ -10,23 +10,38 @@ $('#loginForm').submit(function(event){
 	var newUser = checkIfSignUp.checked; // true or false
 	var error = false;
 
-	console.log(newUser);
+	//console.log(newUser);
+	console.log("Login form submitted");
 
 	if (myUsername.val() === '' || myPassword.val() === ''){
 		myUsername.css('border-color', 'red');
 		myPassword.css('border-color', 'red');
+		//loginForm.append("<p>Please enter a value!</p>");
 		console.log("Need to enter");
 		error = true;
 	}
+
 	if(!error) {
-          console.log( "doing something.");
+		//console.log(myUsername.val());
+		//console.log(myPassword.val());
+
+          if (newUser){
+          	console.log("signup");
+          	signup(myUsername.val(), myPassword.val());
+          	//myForm.append("<p>Now, trying logging in</p>");
+          	
+
+          } else {
+          	console.log("Let's login");
+          	login(myUsername.val(), myPassword.val());
+          }
 	}
 
 });
 
 
 // submit messages
-
+/*
 $('#inputChatForm').submit(function(event){
 	event.preventDefault();
 	var chatForm = $('#inputChatForm');
@@ -35,3 +50,4 @@ $('#inputChatForm').submit(function(event){
 	console.log(myMessage);
 
 }); 
+*/

@@ -5,23 +5,91 @@ var CURRENT_USER = null;
 
 // sendMessage() sends a message to the API
 function sendMessage() {
+	$.ajax({
+		url: 'http://chat-app.brainstation.io/messages',
+		type: 'POST',
+		data: {
+			userID:'',
+			message:'',
+		},
+		dataType:'jsonp',
+		xhrFields: {
+			withCredentials: true
+		}, 
+		success: function(data){
+			console.log(data);
+		},
+		error: function(data){
+			console.log(data);
+		}
 
+	});
 }
 
 // getMessages() gets all messages from the API.
 // we can use diff() to get only the new ones.
 function getMessages() {
-
+	$.ajax({
+		url: 'http://chat-app.brainstation.io/messages',
+		type: 'GET',
+		data: {},
+		dataType: 'jsonp',
+		xhrFields: {
+			withCredentials: true
+		}, 
+		success: function(data){},
+		error: function(data){}
+	});
 }
 
 
 // login() logs in a user by creating a session
-function login(myUsername, myPassword) {
+function login(username, password) {
+	$.ajax({
+		url: 'http://chat-app.brainstation.io/users/login',
+		type: 'POST',
+		data: loginForm.serialize(), 
+		dataType: 'jsonp',
+		xhrFields: {
+			withCredentials: true
+		}, 
+		success: function(data){
+			console.log("yes");
+			console.log(data);
 
+		},
+		error: function (data){
+			console.log("no");
+			console.log(data);
+		} 
+
+	});
+	
 }
 
 // signup() creates an account that we can sign in with
-function signup(myUsername, myPassword, newUser) {
+function signup(username, password) {
+	$.ajax({
+		url: 'http://chat-app.brainstation.io/users',
+		type: 'POST',
+		data: {
+			username: username,
+			password: password
+		}, 
+		xhrFields: {
+			withCredentials: true
+		}, 
+		success:function(data){
+			console.log("yes ");
+			console.log (data);
+			loginForm.reload();
+		},
+		error: function(data){
+			console.log("no");
+			console.log(data);
+		}
+
+	});
 
 }
 

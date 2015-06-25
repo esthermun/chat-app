@@ -31,9 +31,11 @@
 									<div class = "modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby = "myModalLabel">
 										<div class = "modal-dialog">
 											<div class = "modal-content outsideLoginBox">
+												<!-- close button on top -->
+												<button type = "button" class="close closeLoginBox" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span> </button>
 												<div class = "container-fluid insideLoginBox">
 														<!-- form for login -->
-															<form id = "loginForm" class = "" method = "POST" action = "">
+															<form id = "loginForm" class = "" method = "" action = "">
 															<!-- username -->
 																<div class = "form-group">
 																	<label class = "sr-only" for = "InputUsername">Username </label>
@@ -51,6 +53,7 @@
 																	</label>
 																</div>
 																<button type = "submit" class = "btn btn-warning loginBtn"> Login </button>
+																
 															</form> 
 														
 												</div> <!-- container-fluid div closed -->
@@ -88,7 +91,8 @@
 		
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src = "js/event.js"></script>
+		
 		<script type = "text/javascript" src="js/chat.js"></script> 
+		<script type="text/javascript" src = "js/event.js"></script>
 	</body>
 </html>
