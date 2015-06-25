@@ -4,22 +4,25 @@
 var CURRENT_USER = null;
 
 // sendMessage() sends a message to the API
-function sendMessage() {
+function sendMessage(message) {
 	$.ajax({
 		url: 'http://chat-app.brainstation.io/messages',
 		type: 'POST',
 		data: {
-			userID:'',
-			message:'',
+			userID:'c3b73f90e8124b93',
+			message: message,
 		},
-		dataType:'jsonp',
+		//dataType:'jsonp',
 		xhrFields: {
 			withCredentials: true
 		}, 
 		success: function(data){
+			console.log("message sent");
+			console.log(message);
 			console.log(data);
 		},
 		error: function(data){
+			console.log("message not sent");
 			console.log(data);
 		}
 
@@ -32,16 +35,29 @@ function getMessages() {
 	$.ajax({
 		url: 'http://chat-app.brainstation.io/messages',
 		type: 'GET',
-		data: {},
-		dataType: 'jsonp',
+		//data: {},
 		xhrFields: {
 			withCredentials: true
 		}, 
-		success: function(data){},
-		error: function(data){}
+		success: function(data){
+			console.log("yes, getting messages");
+			for (var i = 0; i < data.length; i++){
+				var message = data[i].message;
+				var username = data[i].username;
+				var timestamp = data[i].timestamp;
+				var postedTime = getReadableTime(timestamp);
+				//console.log(username + " wrote " + message + " on " + postedTime);
+				$('#allUserMssgs').append(mssgToHTML(username, message, postedTime));	
+			}
+			scrollBottom($('#allUserMssgs'), 1500);
+		},
+		error: function(data){
+			console.log("no no messages");
+			console.log(data);
+		}
 	});
 }
-
+getMessages();
 
 // login() logs in a user by creating a session
 function login(username, password) {
@@ -58,6 +74,8 @@ function login(username, password) {
 		success: function(data){
 			console.log("yes");
 			console.log(data);
+			var userID = data.uid;
+			console.log(userID);
 
 		},
 		error: function (data){
@@ -83,8 +101,8 @@ function signup(username, password) {
 		}, 
 		success:function(data){
 			console.log("yes ");
-			console.log (data);
-			loginForm.reload();
+			console.log (data.userID);
+			//loginForm.reload();
 		},
 		error: function(data){
 			console.log("no");
@@ -95,7 +113,13 @@ function signup(username, password) {
 
 }
 
-
+function mssgToHTML(username, message, postedTime){
+	return "<article class = 'mssgLine'>" 
+			+ "<div><p><strong>" + username + " wrote: </strong></p>"
+			+ "<p>" + message + "</p></div>"
+			+ "<div class = 'timeLine'><p>" + postedTime + "</p></div>"
+			+ "</article>";
+}
 
 // HELPERS -------
 // You can use these and modify them to fit your needs. 

@@ -33,20 +33,17 @@ $('#loginForm').submit(function(event){
           } else {
           	console.log("Let's login");
           	login(myUsername.val(), myPassword.val());
+          	// upon logging in, close this box and start chat session
           }
 	}
 
 });
 
 
-// submit messages
-/*
-$('#inputChatForm').submit(function(event){
+$('#commentForm').submit(function(event){
 	event.preventDefault();
-	var chatForm = $('#inputChatForm');
-	var myMessage = chatForm.find('textarea[name = "cooment"]');
+	var commentForm = $('#commentForm');
+	var myMessage = commentForm.find('textarea[name="comment"]');
 
-	console.log(myMessage);
-
-}); 
-*/
+	sendMessage(myMessage);
+});
