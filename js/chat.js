@@ -4,12 +4,12 @@
 var CURRENT_USER = null;
 
 // sendMessage() sends a message to the API
-function sendMessage(message) {
+function sendMessage(userID, message) {
 	$.ajax({
 		url: 'http://chat-app.brainstation.io/messages',
 		type: 'POST',
 		data: {
-			userID:'c3b73f90e8124b93',
+			userID: userID,
 			message: message,
 		},
 		//dataType:'jsonp',
@@ -18,8 +18,12 @@ function sendMessage(message) {
 		}, 
 		success: function(data){
 			console.log("message sent");
-			console.log(message);
-			console.log(data);
+			var message = data.message;
+			var username = data.username;
+			var timestamp = data.timestamp;
+			var postedTime = getReadableTime(timestamp);
+			$('#allUserMssgs').append(mssgToHTML(username, message, postedTime));
+			scrollBottom($('#allUserMssgs'), 1500);
 		},
 		error: function(data){
 			console.log("message not sent");
@@ -35,7 +39,6 @@ function getMessages() {
 	$.ajax({
 		url: 'http://chat-app.brainstation.io/messages',
 		type: 'GET',
-		//data: {},
 		xhrFields: {
 			withCredentials: true
 		}, 
@@ -52,12 +55,12 @@ function getMessages() {
 			scrollBottom($('#allUserMssgs'), 1500);
 		},
 		error: function(data){
-			console.log("no no messages");
+			console.log("no messages");
 			console.log(data);
 		}
 	});
+
 }
-getMessages();
 
 // login() logs in a user by creating a session
 function login(username, password) {
@@ -72,16 +75,27 @@ function login(username, password) {
 			withCredentials: true
 		}, 
 		success: function(data){
-			console.log("yes");
-			console.log(data);
+			console.log("logged in");
 			var userID = data.uid;
-			console.log(userID);
+			$('#myModal').modal('hide'); // closes the login box upon success
+			getMessages(); // got messages
+			setInterval(function(){
+				diff(a,b);
+			}, 2000);
 
+			// send messages 
+			$('#commentForm').submit(function(event){
+				event.preventDefault();
+				var commentForm = $('#commentForm');
+				var myMessage = commentForm.find('textarea[name="comment"]').val();
+				sendMessage(userID, myMessage); 				
+			});
 		},
 		error: function (data){
-			console.log("no");
+			console.log("no logging in");
 			console.log(data);
-		} 
+		}
+
 
 	});
 	
@@ -102,7 +116,7 @@ function signup(username, password) {
 		success:function(data){
 			console.log("yes ");
 			console.log (data.userID);
-			//loginForm.reload();
+			
 		},
 		error: function(data){
 			console.log("no");
@@ -127,6 +141,7 @@ function mssgToHTML(username, message, postedTime){
 // how they work!
 
 // Helper - returns all elements in an array A, that are not in B
+//b = old list of messages a= new list of messages
 function diff(a, b) {
 	var bIds = {}
 	b.forEach(function(obj){

@@ -18,6 +18,7 @@ $('#loginForm').submit(function(event){
 		myPassword.css('border-color', 'red');
 		//loginForm.append("<p>Please enter a value!</p>");
 		console.log("Need to enter");
+		$('#logText').text("<p>Please enter username/password.</p>");
 		error = true;
 	}
 
@@ -34,16 +35,17 @@ $('#loginForm').submit(function(event){
           	console.log("Let's login");
           	login(myUsername.val(), myPassword.val());
           	// upon logging in, close this box and start chat session
+         
           }
 	}
 
 });
 
 
-$('#commentForm').submit(function(event){
-	event.preventDefault();
-	var commentForm = $('#commentForm');
-	var myMessage = commentForm.find('textarea[name="comment"]');
+// $('#commentForm').submit(function(event){
+// 	event.preventDefault();
+// 	var commentForm = $('#commentForm');
+// 	var myMessage = commentForm.find('textarea[name="comment"]').val();
 
-	sendMessage(myMessage);
-});
+// 	sendMessage(myMessage);
+// });
