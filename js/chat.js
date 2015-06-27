@@ -62,11 +62,9 @@ function getMessages() {
 				$('#allUserMssgs').append(mssgToHTML(username, message, postedTime));	
 			}
 			scrollBottom($('#allUserMssgs'), 1500);
-
-			// setInterval(function(){
-			// 	diff(a,b); // find the the new messages from getMessages. 
-				
-			// }, 2000);
+			setInterval(function(){
+				updateMessages(currentData);
+			}, 2000);
 
 		},
 		error: function(data){
@@ -76,6 +74,9 @@ function getMessages() {
 	});
 
 }
+// setInterval(function(){
+// 	updateMessages(currentData);
+// }, 2000);
 
 function updateMessages(currentData){
 	$.ajax({
@@ -86,8 +87,7 @@ function updateMessages(currentData){
 		}, 
 		success: function(data){
 			console.log("success updating messages");
-			setInterval(function(){
-				var newData= diff(currentData, data);
+				var newData = diff(currentData, data);
 				for (var j = 0; j < newData.length; j++){
 					var newMessage = newData[j].message;
 					var newUsername = newData[j].username;
@@ -96,10 +96,8 @@ function updateMessages(currentData){
 					$('#allUserMssgs').append(mssgToHTML(newUsername, newMessage, newPostedTime));
 					console.log("success updating");
 				}
-				
-			}, 2000);
-			
-			scrollBottom($('#allUserMssgs'), 1500);			
+
+			scrollBottom($('#allUserMssgs'), 1000);			
 		},
 		error: function(data){
 			console.log("didn't update");
