@@ -59,9 +59,6 @@ textarea {
 	border-bottom: 1px dotted #fff;
 	padding: 8px 20px;
 }
-.mssgLine div{
-	display: inline-block;
-}
 .mssgLine .timeLine {
 	float: right;
 }

@@ -1,3 +1,12 @@
+// Storing data
+localStorage.setItem("language", "EN");
+
+// Getting data
+user_language_preference = localStorage.getItem("language");
+
+console.log(user_language_preference); // -> "EN"
+
+
 // Initialize global user 
 // (a good idea to store the information you need
 // when sending messages here)
@@ -23,7 +32,7 @@ function sendMessage(userID, message) {
 			var timestamp = data.timestamp;
 			var postedTime = getReadableTime(timestamp);
 			$('#allUserMssgs').append(mssgToHTML(username, message, postedTime));
-			scrollBottom($('#allUserMssgs'), 1500);
+			scrollBottom($('#allUserMssgs'), 1000);
 		},
 		error: function(data){
 			console.log("message not sent");
@@ -44,15 +53,21 @@ function getMessages() {
 		}, 
 		success: function(data){
 			console.log("yes, getting messages");
+			var currentData = data;
 			for (var i = 0; i < data.length; i++){
 				var message = data[i].message;
 				var username = data[i].username;
 				var timestamp = data[i].timestamp;
-				var postedTime = getReadableTime(timestamp);
-				//console.log(username + " wrote " + message + " on " + postedTime);
+				var postedTime = getReadableTime(timestamp);			
 				$('#allUserMssgs').append(mssgToHTML(username, message, postedTime));	
 			}
 			scrollBottom($('#allUserMssgs'), 1500);
+
+			// setInterval(function(){
+			// 	diff(a,b); // find the the new messages from getMessages. 
+				
+			// }, 2000);
+
 		},
 		error: function(data){
 			console.log("no messages");
@@ -62,6 +77,38 @@ function getMessages() {
 
 }
 
+function updateMessages(currentData){
+	$.ajax({
+		url: 'http://chat-app.brainstation.io/messages',
+		type: 'GET',
+		xhrFields: {
+			withCredentials: true
+		}, 
+		success: function(data){
+			console.log("success updating messages");
+			setInterval(function(){
+				var newData= diff(currentData, data);
+				for (var j = 0; j < newData.length; j++){
+					var newMessage = newData[j].message;
+					var newUsername = newData[j].username;
+					var newTimestamp = newData[j].timestamp;
+					var newPostedTime = getReadableTime(newTimestamp);			
+					$('#allUserMssgs').append(mssgToHTML(newUsername, newMessage, newPostedTime));
+					console.log("success updating");
+				}
+				
+			}, 2000);
+			
+			scrollBottom($('#allUserMssgs'), 1500);			
+		},
+		error: function(data){
+			console.log("didn't update");
+			console.log(data);
+		}
+	});
+
+
+}
 // login() logs in a user by creating a session
 function login(username, password) {
 	$.ajax({
@@ -78,10 +125,7 @@ function login(username, password) {
 			console.log("logged in");
 			var userID = data.uid;
 			$('#myModal').modal('hide'); // closes the login box upon success
-			getMessages(); // got messages
-			setInterval(function(){
-				diff(a,b);
-			}, 2000);
+			getMessages();
 
 			// send messages 
 			$('#commentForm').submit(function(event){
@@ -95,10 +139,7 @@ function login(username, password) {
 			console.log("no logging in");
 			console.log(data);
 		}
-
-
-	});
-	
+	});	
 }
 
 // signup() creates an account that we can sign in with
@@ -129,9 +170,11 @@ function signup(username, password) {
 
 function mssgToHTML(username, message, postedTime){
 	return "<article class = 'mssgLine'>" 
-			+ "<div><p><strong>" + username + " wrote: </strong></p>"
+			+"<div class = 'row'>"  
+			+ "<div class = 'col-md-10'><p><strong>" + username + " wrote: </strong></p>"
 			+ "<p>" + message + "</p></div>"
-			+ "<div class = 'timeLine'><p>" + postedTime + "</p></div>"
+			+ "<div class = 'col-md-2 timeLine'><p>" + postedTime + "</p></div>"
+			+ "</div>"
 			+ "</article>";
 }
 
